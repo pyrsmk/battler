@@ -1,0 +1,13 @@
+name: battler
+version: 0.1.0
+
+authors:
+  - Aurélien Delogu <aurelien.delogu@gmail.com>
+
+targets:
+  barcode:
+    main: src/battler.cr
+
+crystal: '>= 1.19.1'
+
+license: MIT
