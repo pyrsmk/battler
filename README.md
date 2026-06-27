@@ -10,10 +10,6 @@ battler <ean_digits>
 
 The tool accepts any valid EAN-8 or EAN-13 barcode (digits only, checksum validated) and displays the full card stats for both VS Mode and Story Mode.
 
-## TODO
-
-- find the algo in story mode for items (https://fr.scribd.com/doc/292704200/All-Cards-for-Barcode-Battler)
-
 ## Barcode Battler II Technical Reference
 
 Barcode Battler II (1992, Epoch) is a handheld game that reads standard EAN barcodes from everyday product packaging and converts them into battle cards. Every barcode produces a unique card with its own stats, type, and special ability — making any barcode scanner a card generator.
@@ -28,8 +24,6 @@ The device accepts two standard barcode formats:
 | EAN-8  | 8      | Compact product barcodes; always uses post-reading |
 
 The last digit is the EAN check digit, calculated from the preceding digits. It also carries meaning in post-reading mode (see below).
-
----
 
 ### Reading Modes
 
@@ -46,16 +40,17 @@ Stats are read directly from the barcode digits with no transformation. This met
 Digit layout in pre-reading:
 
 ```
-Position:  0  1  2  3  4  5  6  7  8  9  10 11 12
-           [  HP   ] [ST] [DF] [R][J][Sp][Spec ] [CK]
+Position:  0-1-2  3-4  5-6  7   8   9    10-11  12
+           [ HP ] [ST] [DF] [R] [J] [Sp] [Spec] [CK]
 
-HP  = digits 0–2
-ST  = digits 3–4
-DF  = digits 5–6
-Race    = digit 7
-Job     = digit 8
-Speed   = digit 9
-Special = digits 10–11
+HP       : digits 0–2
+ST       : digits 3–4
+DF       : digits 5–6
+Race     : digit 7
+Job      : digit 8
+Speed    : digit 9
+Special  : digits 10–11
+Checksum : digit 12
 ```
 
 #### Post-reading (Formula-Based)
@@ -71,8 +66,6 @@ When the barcode does not qualify for pre-reading, stats are derived through a n
 
 Weapon and armor bonuses also follow distinct formulas in this mode.
 
----
-
 ### Stats
 
 All raw stat values are multiplied by 100 to get the in-game value (e.g., a raw HP of 420 becomes 42,000 in-game).
@@ -85,8 +78,6 @@ All raw stat values are multiplied by 100 to get the in-game value (e.g., a raw 
 | **Speed** | Determines turn order in battle |
 | **PP** | Power Points — herb/recovery charges; fighters always start with 5 |
 | **MP** | Magic Points — available only to Wizards (Job ≥ 7); starts at 10 |
-
----
 
 ### Card Types
 
@@ -145,8 +136,6 @@ Items restore stats and are identified by their Job digit:
 | 7         | Restores PP |
 | 8–9       | Restores MP |
 
----
-
 ### Jobs
 
 Jobs apply to fighters and determine their class. Soldiers and Wizards have different capabilities in battle.
@@ -165,8 +154,6 @@ Jobs apply to fighters and determine their class. Soldiers and Wizards have diff
 | Wizard 9  | 9     | Wizard  | Magic user; starts with 10 MP |
 
 Soldiers cannot use magic (MP = 0). Wizards have access to MP-based abilities.
-
----
 
 ### Game Modes
 
@@ -214,15 +201,11 @@ The console uses this pattern to reject enemy cards when a player attempts to sc
 | 99     | Recycle Scholar     | 4292519295862 |
 | 100    | Death Chu High Khan | 5091594055724 |
 
----
-
 ### Special Effects
 
 Each card carries one special effect encoded in the barcode. In pre-reading mode it comes from digits 10–11; in post-reading mode it is derived from digits 8 and 10. A value of `0` means no special effect.
 
 The original Barcode Battler manual deliberately left most of these effects undocumented, encouraging players to discover them through trial and error. The descriptions below come from the original Japanese source material and community reverse-engineering. Effects marked *uncertain* have no confirmed mechanical specification beyond their Japanese label.
-
----
 
 #### Conditional 3× Attack (「三倍剣」— "Triple Sword")
 
@@ -249,8 +232,6 @@ This is the most common special effect in the game. It is highly situational —
 | 14   | Opponent is Race 4 (Human) |
 | 15   | Opponent is Race 0 (Mechanical) |
 
----
-
 #### Stat Multipliers
 
 These effects modify the card's own stats or the opponent's stats for the duration of the battle.
@@ -267,8 +248,6 @@ These effects modify the card's own stats or the opponent's stats for the durati
 
 Code **27** is the most powerful DF debuff: the opponent's defense is reduced by 80%. Code **28** reduces the opponent's HP by 30% at the start of the battle, before any attacks are exchanged.
 
----
-
 #### Item Curses
 
 These codes affect item cards (weapons, armors, HP restorers) and introduce a chance of the item backfiring.
@@ -280,8 +259,6 @@ These codes affect item cards (weapons, armors, HP restorers) and introduce a ch
 | 32   | DF armor: 50% chance the DF bonus becomes a penalty (negative DF) |
 
 The curse is resolved randomly at the moment the item is played — the player has no way to know in advance whether the item will help or harm.
-
----
 
 #### Battle Modifiers *(uncertain)*
 
@@ -297,24 +274,86 @@ The following effects are documented in the original Japanese source material bu
 | 43   | Opponent recovery rate down — reduces how much HP/PP opponents restore from items |
 | 44   | Own recovery rate up — increases how much HP/PP is restored from items |
 
----
-
 #### Story Mode Rewards
 
 These effects only apply in Story Mode (C1/C2). When the player defeats a card carrying one of these codes, the hero's stats are permanently boosted by the listed amount for the rest of that story run.
 
 Code **50** marks the hero card itself — the card the player scans as their main character at the start of Story Mode.
 
-| Code | Effect on defeat |
-|------|-----------------|
-| 50   | Hero card — the player's Story Mode protagonist |
+| Code | Effect on defeat     |
+|------|----------------------|
+| 50   | Hero card            |
 | 65   | Hero gains +1,000 HP |
 | 66   | Hero gains +3,000 HP |
-| 70   | Hero gains +200 ST |
-| 71   | Hero gains +400 ST |
-| 72   | Hero gains +600 ST |
-| 73   | Hero gains +800 ST |
-| 75   | Hero gains +200 DF |
-| 76   | Hero gains +400 DF |
-| 77   | Hero gains +600 DF |
-| 78   | Hero gains +800 DF |
+| 70   | Hero gains +200 ST   |
+| 71   | Hero gains +400 ST   |
+| 72   | Hero gains +600 ST   |
+| 73   | Hero gains +800 ST   |
+| 75   | Hero gains +200 DF   |
+| 76   | Hero gains +400 DF   |
+| 77   | Hero gains +600 DF   |
+| 78   | Hero gains +800 DF   |
+
+## Optimal Barcodes
+
+The following barcodes produce the most powerful possible cards of each type. All are valid EAN-13 with correct checksums.
+
+### Fighters
+
+In pre-reading mode, all stats can be maximized simultaneously. In post-reading mode, HP and ST reach higher values but digits are shared between stats, resulting in trade-offs. Stats are shown as C0 / C1.
+
+#### Pre-reading
+
+|              | Warrior         | Wizard          |
+|--------------|-----------------|-----------------|
+| Barcode      | `1999994092799` | `1999994792722` |
+| HP           | 19,900 / 1,900  | 19,900 / 1,900  |
+| ST           | 9,900  / 1,000  | 9,900  / 1,000  |
+| DF           | 9,900  / 1,200  | 9,900  / 1,200  |
+| Speed        | 9               | 9               |
+| PP           | 5               | 5               |
+| MP           | 0               | 10              |
+
+#### Post-reading
+
+|              | Warrior         | Wizard          |
+|--------------|-----------------|-----------------|
+| Barcode      | `2500000022494` | `2500070022493` |
+| HP           | 44,200 / 4,400  | 44,200 / 4,400  |
+| ST           | 11,700 / 1,200  | 11,700 / 1,200  |
+| DF           | 9,900  / 1,200  | 9,900  / 1,200  |
+| Speed        | 4               | 4               |
+| PP           | 5               | 5               |
+| MP           | 0               | 10              |
+
+### Equipment
+
+Pre-reading equipment is capped at raw 19 (1,900) because the pre-reading condition requires ST ≤ 19 and DF ≤ 19. Post-reading bypasses this limit using prefix-based formulas, reaching up to 3,900 for weapons and 2,900 for armors.
+
+#### Pre-reading
+
+|              | DurableWeapon   | OneUseWeapon    |
+|--------------|-----------------|-----------------|
+| Barcode      | `0001900609270` | `0001900509273` |
+| Bonus        | ST +1,900       | ST +1,900       |
+
+|              | DurableArmor    | OneUseArmor     |
+|--------------|-----------------|-----------------|
+| Barcode      | `0000019809212` | `0000019709215` |
+| Bonus        | DF +1,900       | DF +1,900       |
+
+#### Post-reading
+
+|              | DurableWeapon   | OneUseWeapon    |
+|--------------|-----------------|-----------------|
+| Barcode      | `2000000084336` | `2000000084305` |
+| Bonus        | ST +3,900       | ST +3,900       |
+
+|              | DurableArmor    | OneUseArmor     |
+|--------------|-----------------|-----------------|
+| Barcode      | `2000000021508` | `2000000021027` |
+| Bonus        | DF +2,900       | DF +2,900       |
+
+## Some links
+
+- Barcodes from game cards: https://fr.scribd.com/doc/292704200/All-Cards-for-Barcode-Battler
