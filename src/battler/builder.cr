@@ -7,6 +7,7 @@ module Battler
       data = Data.new(barcode)
 
       if prepost_check(barcode)
+        data.enemy = enemy_check(barcode)
         pre_reading(data)
       else
         data.post_read = true
@@ -198,6 +199,13 @@ module Battler
                      when 8..9 then "2#{b[10 + es]}".to_i
                      else           "1#{b[10 + es]}".to_i
                      end
+    end
+
+    # --- Enemy detection ---
+
+    private def enemy_check(barcode : String) : Bool
+      first = barcode[0].to_i
+      first >= 2 && barcode[2].to_i == 9 && barcode[9].to_i == 5
     end
 
     # --- Validation ---

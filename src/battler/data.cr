@@ -1,16 +1,17 @@
 module Battler
   class Data
-    property barcode  : String
-    property hp       : Int32
-    property st       : Int32
-    property df       : Int32
-    property speed    : Int32
-    property race     : Int32
-    property job      : Int32
-    property pp       : Int32
-    property mp       : Int32
-    property special  : Int32
+    property barcode   : String
+    property hp        : Int32
+    property st        : Int32
+    property df        : Int32
+    property speed     : Int32
+    property race      : Int32
+    property job       : Int32
+    property pp        : Int32
+    property mp        : Int32
+    property special   : Int32
     property post_read : Bool
+    property enemy     : Bool
 
     def initialize(@barcode)
       @hp        = 0
@@ -23,6 +24,7 @@ module Battler
       @mp        = 0
       @special   = 0
       @post_read = false
+      @enemy     = false
     end
 
     def is_ean13? : Bool
@@ -42,13 +44,13 @@ module Battler
     end
 
     def card_type : String
-      r = Race.from_value?(@race)
-      return "Unknown" unless r
-      if FIGHTERS.includes?(r)
+      race = Race.from_value?(@race)
+      return "Unknown" unless race
+      if FIGHTERS.includes?(race)
         "Fighter"
-      elsif WEAPONS.includes?(r)
+      elsif WEAPONS.includes?(race)
         "Weapon"
-      elsif ARMORS.includes?(r)
+      elsif ARMORS.includes?(race)
         "Armor"
       else
         "Item"
@@ -59,26 +61,21 @@ module Battler
       SPECIAL_DESCRIPTIONS[@special]? || (@special == 0 ? "None" : "Unknown (#{@special})")
     end
 
-    # Story mode (C1) stats — stats divided by 10 with small fixed bonuses
-    def story_hp : Int32
-      @hp // 10
+    def hero? : Bool
+      @special == 50
     end
 
-    def story_st : Int32
-      @st // 10 + 1
+    def fighter? : Bool
+      FIGHTERS.includes?(Race.from_value?(@race))
     end
 
-    def story_df : Int32
-      @df // 10 + 3
+    def mode_name : String
+      @enemy ? "C2 (Enemy)" : "C0 / C1"
     end
 
     def display
-      r = Race.from_value?(@race)
-      is_fighter = r && FIGHTERS.includes?(r)
-
-      rows = build_rows(r, is_fighter)
-      width = rows.map { |_, v| v.size }.max
-
+      rows = build_rows
+      width = rows.map{ |_, v| v.size }.max
       sep = "+--------------+-#{"-" * width}-+"
       rows.each_with_index do |(label, value), i|
         puts sep if i == 0 || label == "Type" || label == "HP" || label == "Special"
@@ -91,28 +88,35 @@ module Battler
       puts sep
     end
 
-    private def build_rows(r, is_fighter) : Array({String, String})
+    private def build_rows : Array({String, String})
+      race = Race.from_value?(@race)
+
       rows = [] of {String, String}
+      rows << {"Barcode", @barcode}
+      rows << {"Mode",    mode_name}
+      rows << {"Type",    card_type}
+      rows << {"Race",    race_name}
+      rows << {"Job",     job_name} if fighter?
 
-      rows << {"Barcode",   @barcode}
-      rows << {"Read mode", @post_read ? "Post-reading" : "Pre-reading"}
-      rows << {"Type",      card_type}
-      rows << {"Race",      race_name}
-      rows << {"Job",       job_name} if is_fighter
-
-      if is_fighter
-        rows << {"HP",    "#{@hp * 100} / #{story_hp * 100}"}
-        rows << {"ST",    "#{@st * 100} / #{story_st * 100}"}
-        rows << {"DF",    "#{@df * 100} / #{story_df * 100}"}
+      if fighter?
+        if hero? || @enemy
+          rows << {"HP", (@hp * 100).to_s}
+          rows << {"ST", (@st * 100).to_s}
+          rows << {"DF", (@df * 100).to_s}
+        else
+          rows << {"HP", "#{@hp * 100} / #{(@hp // 10) * 100}"}
+          rows << {"ST", "#{@st * 100} / #{(@st // 10 + 1) * 100}"}
+          rows << {"DF", "#{@df * 100} / #{(@df // 10 + 3) * 100}"}
+        end
         rows << {"Speed", @speed.to_s}
         rows << {"PP",    @pp.to_s}
         rows << {"MP",    @mp.to_s}
-      elsif r && WEAPONS.includes?(r)
+      elsif race && WEAPONS.includes?(race)
         rows << {"ST bonus", (@st * 100).to_s}
-      elsif r && ARMORS.includes?(r)
+      elsif race && ARMORS.includes?(race)
         rows << {"DF bonus", (@df * 100).to_s}
       else
-        rows << {"Job",        job_name}
+        rows << {"Job", job_name}
         rows << {"HP restore", (@hp * 100).to_s} if @hp != 0
         rows << {"PP restore", @pp.to_s}         if @pp != 0
         rows << {"MP restore", @mp.to_s}         if @mp != 0

@@ -174,9 +174,9 @@ Soldiers cannot use magic (MP = 0). Wizards have access to MP-based abilities.
 
 Full stats are used as-is. This is the standard competitive mode where two players face off with their scanned cards.
 
-#### Story Mode (C1)
+#### C1 Mode (Story, single-player)
 
-In single-player story mode, all fighter stats are scaled down using the following formula:
+In single-player story mode, the player scans a warrior and a wizard as heroes. The 120 enemies are built into the console's ROM (4 epochs × 6 levels × 5 stages). Fighter stats are scaled down using the following formula:
 
 ```
 HP  = (HP  ÷ 10)
@@ -185,6 +185,34 @@ DF  = (DF  ÷ 10) + 3
 ```
 
 These values are then multiplied by 100 for the in-game display. For example, a VS Mode card with HP 42,000 / ST 9,500 / DF 7,800 becomes HP 4,200 / ST 1,000 / DF 1,000 in Story Mode.
+
+#### C2 Mode (Card-based campaign)
+
+In C2 mode, enemies are scanned from physical card decks rather than drawn from ROM. The player scans hero cards, then manually scans enemy cards to fight them one by one.
+
+##### Enemy Card Detection
+
+Official enemy cards (from the Conveni Wars base set) are identified by a specific barcode pattern. For EAN-13 barcodes where the first digit is `2`–`9`:
+
+- Digit at position 2 must be `9`
+- Digit at position 9 must be `5`
+
+This pattern also happens to be the pre-reading condition for barcodes starting with `2`–`9`. As a consequence, all enemy cards have a fixed Speed of 5 (since digit 9 encodes Speed in pre-reading mode).
+
+The console uses this pattern to reject enemy cards when a player attempts to scan them as heroes in C1 mode.
+
+| Card # | Name                | Barcode       |
+|--------|---------------------|---------------|
+| 91     | Death Kin Bird -R   | 3999105145846 |
+| 92     | Black Elegant       | 3899496375719 |
+| 93     | Death Camel         | 2997971385282 |
+| 94     | Psycho Jize         | 3598791485238 |
+| 95     | Blue Dead           | 3698994455851 |
+| 96     | Macaroni Gradan     | 3198879325700 |
+| 97     | Blood Fox Dorte     | 3398587475661 |
+| 98     | Ramen Dark Emperor  | 4090699045778 |
+| 99     | Recycle Scholar     | 4292519295862 |
+| 100    | Death Chu High Khan | 5091594055724 |
 
 ---
 
