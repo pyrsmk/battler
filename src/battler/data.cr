@@ -112,9 +112,19 @@ module Battler
         rows << {"PP",    @pp.to_s}
         rows << {"MP",    @mp.to_s}
       elsif race && WEAPONS.includes?(race)
-        rows << {"ST bonus", (@st * 100).to_s}
+        rows << {
+          "ST bonus",
+          race == Race::DurableWeapon ?
+          "#{@st * 100} / #{(@st - 10) * 100}" :
+          (@st * 100).to_s
+        }
       elsif race && ARMORS.includes?(race)
-        rows << {"DF bonus", (@df * 100).to_s}
+        rows << {
+          "DF bonus",
+          race == Race::DurableArmor ?
+          "#{@df * 100} / #{(@df - 10) * 100}" :
+          (@df * 100).to_s
+        }
       else
         rows << {"Job", job_name}
         rows << {"HP restore", (@hp * 100).to_s} if @hp != 0
