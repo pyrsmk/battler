@@ -56,7 +56,7 @@ module Battler
       (
         WIZARD_JOBS.includes?(job) ?
         CharacterType::Wizard :
-        CharacterType::Soldier
+        CharacterType::Warrior
       )
     end
 

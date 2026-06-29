@@ -19,25 +19,25 @@ module Battler
   end
 
   enum Job
-    Soldier0  = 0
-    Soldier1  = 1
-    Soldier2  = 2
-    Soldier3  = 3
-    Soldier4  = 4
-    Soldier5  = 5
-    StSoldier = 6
+    Warrior0  = 0
+    Warrior1  = 1
+    Warrior2  = 2
+    Warrior3  = 3
+    Warrior4  = 4
+    Warrior5  = 5
+    Warrior6  = 6
     Wizard7   = 7
     Wizard8   = 8
     Wizard9   = 9
   end
 
-  SOLDIER_JOBS = [Job::Soldier0, Job::Soldier1, Job::Soldier2,
-                  Job::Soldier3, Job::Soldier4, Job::Soldier5]
+  WARRIOR_JOBS = [Job::Warrior0, Job::Warrior1, Job::Warrior2, Job::Warrior3, Job::Warrior4,
+                  Job::Warrior5, Job::Warrior6]
   WIZARD_JOBS  = [Job::Wizard7, Job::Wizard8, Job::Wizard9]
 
   enum CharacterType
     Enemy   = 1
-    Soldier = 2
+    Warrior = 2
     Wizard  = 3
   end
 

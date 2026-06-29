@@ -10,6 +10,75 @@ battler <ean_digits>
 
 The tool accepts any valid EAN-8 or EAN-13 barcode (digits only, checksum validated) and displays the full card stats for both VS Mode and Story Mode.
 
+## Console Versions
+
+The Barcode Battler line went through three hardware generations, each expanding the gameplay system. This project targets the **Barcode Battler II**.
+
+### Barcode Battler (1991)
+
+![Barcode Battler original](https://strategygamesevolution.com/wp-content/uploads/2023/03/bb_ref_bb1.jpg)
+
+- **Color:** White
+- **Scanner:** Integrated barcode reader (JAN/EAN/UPC/ISBN)
+- **Classes:** Warriors only (no magic system)
+- **Stats:** HP, ST, DF + hidden special ability
+- **Modes:**
+  - COM: Single-player against 10 internal stages (60 enemies)
+  - B1: Story progression with card software
+  - B2: Free versus battles
+- **Items:** Unlimited healing capacity
+
+### Barcode Battler II (1992) — *the version supported by this project*
+
+![Barcode Battler II](https://images.timeextension.com/7a328169720fb/large.jpg)
+
+- **Color:** Black with purple buttons
+- **Scanner:** Integrated barcode reader + output port for Famicom / Super Famicom
+- **Classes:** 2 — Warrior (job 0-6) and Wizard (job 7-9)
+- **Magic:** 10 spells, Wizards get 10 MP
+- **Items:** Herb recovery limited to 5 base, 3 max simultaneous
+- **Modes:**
+  - C0: Versus battles (unrestricted fusion)
+  - C1: Story mode (4 stages + 2 hidden)
+  - C2: Card-based campaign (enemies scanned from physical decks)
+- **Console connectivity:** Interface unit for Famicom/Super Famicom (Barcode World, Conveni Wars)
+- **Card software:** Licensed franchises (Super Mario World, Zelda, Dragon Slayer...)
+
+### Barcode Battler II2 "Double" (1993)
+
+![Barcode Battler II2 Double](https://stat.ameba.jp/user_images/3d/56/10136644388.jpg)
+
+An expansion of the BB II, sold as **two separate devices** (due to storage limitations):
+
+- **C0 model** ("Ko-Battler"): Multiplayer-oriented (up to 4 players, tag-team 2v2, battle royale)
+- **C2 model**: Single-player / story-oriented
+
+Key differences from the BB II:
+
+| | BB II | BB II2 Double |
+|---|---|---|
+| Classes | 2 (Warrior, Wizard) | 4 (Warrior, Wizard, Monk, Saint Soldier) |
+| HP max | 99,900 | 199,900 |
+| ST max | 19,900 | 99,900 |
+| DF max | 19,900 | 99,900 |
+| Spells | 10 | 15 |
+| Equipment slots | 1 | 2 |
+
+Class distribution by job digit:
+
+| Digit | BB II | BB II2 Double |
+|---|---|---|
+| 0, 1, 2, 3, 5 | Warrior | Warrior |
+| 4 | Warrior | Monk (new) |
+| 6 | Warrior | Saint Soldier (new) |
+| 7, 8, 9 | Wizard | Wizard |
+
+The Monk can use recovery magic. The Saint Soldier is a rare hybrid class that can use both weapons and magic. Both new classes have a 1-in-10 rarity (distribution ratio 5:3:1:1).
+
+**Notable hardware limitation:** the Double has **no barcode scanner** of its own. It requires a BB II unit to scan barcodes and transfer data via cable, effectively requiring two devices to play.
+
+![Barcode Battler II2 Double (rear/cable view)](https://stat.ameba.jp/user_images/12/79/10136644584.jpg)
+
 ## Barcode Battler II Technical Reference
 
 Barcode Battler II (1992, Epoch) is a handheld game that reads standard EAN barcodes from everyday product packaging and converts them into battle cards. Every barcode produces a unique card with its own stats, type, and special ability — making any barcode scanner a card generator.
@@ -138,22 +207,22 @@ Items restore stats and are identified by their Job digit:
 
 ### Jobs
 
-Jobs apply to fighters and determine their class. Soldiers and Wizards have different capabilities in battle.
+Jobs apply to fighters and determine their class. Warriors and Wizards have different capabilities in battle.
 
 | Job       | Value | Class   | Notes |
 |-----------|-------|---------|-------|
-| Soldier 0 | 0     | Soldier | — |
-| Soldier 1 | 1     | Soldier | — |
-| Soldier 2 | 2     | Soldier | — |
-| Soldier 3 | 3     | Soldier | — |
-| Soldier 4 | 4     | Soldier | — |
-| Soldier 5 | 5     | Soldier | — |
-| ST Soldier | 6    | Soldier | Special soldier variant; no MP |
+| Warrior 0 | 0     | Warrior | — |
+| Warrior 1 | 1     | Warrior | — |
+| Warrior 2 | 2     | Warrior | — |
+| Warrior 3 | 3     | Warrior | — |
+| Warrior 4 | 4     | Warrior | — |
+| Warrior 5 | 5     | Warrior | — |
+| Warrior 6 | 6     | Warrior | — |
 | Wizard 7  | 7     | Wizard  | Magic user; starts with 10 MP |
 | Wizard 8  | 8     | Wizard  | Magic user; starts with 10 MP |
 | Wizard 9  | 9     | Wizard  | Magic user; starts with 10 MP |
 
-Soldiers cannot use magic (MP = 0). Wizards have access to MP-based abilities.
+Warriors cannot use magic (MP = 0). Wizards have access to MP-based abilities.
 
 ### Game Modes
 
@@ -188,19 +257,6 @@ This pattern also happens to be the pre-reading condition for barcodes starting 
 
 The console uses this pattern to reject enemy cards when a player attempts to scan them as heroes in C1 mode.
 
-| Card # | Name                | Barcode       |
-|--------|---------------------|---------------|
-| 91     | Death Kin Bird -R   | 3999105145846 |
-| 92     | Black Elegant       | 3899496375719 |
-| 93     | Death Camel         | 2997971385282 |
-| 94     | Psycho Jize         | 3598791485238 |
-| 95     | Blue Dead           | 3698994455851 |
-| 96     | Macaroni Gradan     | 3198879325700 |
-| 97     | Blood Fox Dorte     | 3398587475661 |
-| 98     | Ramen Dark Emperor  | 4090699045778 |
-| 99     | Recycle Scholar     | 4292519295862 |
-| 100    | Death Chu High Khan | 5091594055724 |
-
 ### Special Effects
 
 Each card carries one special effect encoded in the barcode. In pre-reading mode it comes from digits 10–11; in post-reading mode it is derived from digits 8 and 10. A value of `0` means no special effect.
@@ -217,15 +273,15 @@ This is the most common special effect in the game. It is highly situational —
 
 | Code | Trigger condition |
 |------|-------------------|
-| 1    | Opponent is Job 1 (Soldier 1) |
-| 2    | Opponent is Job 2 (Soldier 2) |
-| 3    | Opponent is Job 3 (Soldier 3) |
-| 4    | Opponent is Job 4 (Soldier 4) |
-| 5    | Opponent is Job 5 (Soldier 5) |
-| 6    | Opponent is Job 6 (ST Soldier) |
+| 1    | Opponent is Job 1 (Warrior 1) |
+| 2    | Opponent is Job 2 (Warrior 2) |
+| 3    | Opponent is Job 3 (Warrior 3) |
+| 4    | Opponent is Job 4 (Warrior 4) |
+| 5    | Opponent is Job 5 (Warrior 5) |
+| 6    | Opponent is Job 6 (Warrior 6) |
 | 7    | Opponent is Job 7 (Wizard 7) |
 | 8    | Opponent is Job 8 (Wizard 8) |
-| 10   | Opponent is Job 0 (Soldier 0) |
+| 10   | Opponent is Job 0 (Warrior 0) |
 | 11   | Opponent is Race 1 (Animal) |
 | 12   | Opponent is Race 2 (Aquatic) |
 | 13   | Opponent is Race 3 (Bard) |
@@ -356,4 +412,8 @@ Pre-reading equipment is capped at raw 19 (1,900) because the pre-reading condit
 
 ## Some links
 
+- Barcode Battler II presentation : https://strategygamesevolution.com/barcode-battler-ii/
 - Barcodes from game cards: https://fr.scribd.com/doc/292704200/All-Cards-for-Barcode-Battler
+- Barcode Battler II detailed analysis (JP): https://barcodebattler.net/
+- Barcode Battler II2 Double blog post (JP): https://ameblo.jp/itsuei/entry-10203945374.html
+- Strategy Games Evolution — BB II overview: https://strategygamesevolution.com/barcode-battler-ii/
