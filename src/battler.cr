@@ -1,6 +1,4 @@
-require "./battler/constants"
-require "./battler/data"
-require "./battler/builder"
+require "./battler/**"
 
 barcode = ARGV.first?
 
@@ -10,8 +8,7 @@ if barcode.nil? || barcode.empty?
 end
 
 begin
-  data = Battler::Builder.new.build(barcode)
-  data.display
+  puts Battler::Barcode.new(barcode).to_s
 rescue error : ArgumentError
   STDERR.puts "Error: #{error.message}"
   exit 1
