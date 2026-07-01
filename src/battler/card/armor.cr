@@ -8,6 +8,10 @@ module Battler
       private def data : PrintableData
         data = [
           {
+            "Barcode" => @data[:barcode],
+            "Mode"    => @data[:modes].map(&.to_s).join(" / "),
+          },
+          {
             "Type"     => "Armor",
             "Subtype"  => @data[:race].to_s
           },

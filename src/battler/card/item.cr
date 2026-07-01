@@ -9,6 +9,12 @@ module Battler
         data = [] of Hash(String, String)
 
         data << {
+          "Barcode" => @data[:barcode],
+          "Mode"    => @data[:hp] != 0 || @data[:pp] != 0 || @data[:mp] != 0 ?
+                       @data[:modes].map(&.to_s).join(" / ") :
+                       Mode::C1.to_s
+        }
+        data << {
           "Type"     => "Item",
           "Subtype"  => @data[:hp] != 0 || @data[:pp] != 0 || @data[:mp] != 0 ?
                         @data[:race].to_s :

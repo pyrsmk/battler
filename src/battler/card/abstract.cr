@@ -10,18 +10,12 @@ module Battler
       def to_s : String
         @_to_s ||= (
           lines = [] of String
-          groups = [
-            {
-              "Barcode" => @data[:barcode],
-              "Mode"    => @data[:modes].map(&.to_s).join(" / "),
-            }
-          ].concat(data)
 
-          width = groups.map{ |group| group.map{ |key, value| value.size }.max }.max
+          width = data.map{ |group| group.map{ |key, value| value.size }.max }.max
           separator = "+--------------+-#{"-" * width}-+"
           lines << separator
 
-          groups.each do |group|
+          data.each do |group|
             group.each do |label, value|
               lines << "| %-12s | %-*s |" % [label, width, value]
             end
