@@ -3,3 +3,7 @@
 /.shards/
 *.dwarf
 /bin/*.dwarf
+
+# Web
+/web/node_modules/
+/web/dist/

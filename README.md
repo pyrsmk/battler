@@ -1,18 +1,24 @@
 # Battler
 
-Display information from barcodes, based on the Barcode Battler II gaming system.
+![Barcode Battler II](https://images.timeextension.com/7a328169720fb/large.jpg)
 
-This project has two sides: a CLI binary, and an HTTP server.
+This project aims to get stats from barcodes, based on the Barcode Battler II gaming system.
+
+It is separated into three components:
+
+- a CLI binary,
+- an API HTTP server,
+- a website.
 
 ## CLI usage
 
-```
-battler <ean_digits>
+```sh
+battler <barcode>
 ```
 
-The tool accepts any valid EAN-8 or EAN-13 barcode (digits only, checksum validated) and displays the full card stats for both VS Mode and Story Mode.
+The tool accepts any valid EAN-8 or EAN-13 barcode and displays the full card stats for both C0 mode and C1 mode.
 
-## HTTP usage
+## API usage
 
 The `server` binary exposes a single route `/barcode/<barcode>`.
 
@@ -71,4 +77,4 @@ run
 
 ## License
 
-[Don't Be A Dick](https://dont-be-a-dick.animi.st/).
+[Don't Be A Dick](https://dont-be-a-dick.animi.st/)
