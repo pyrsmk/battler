@@ -6,7 +6,7 @@ module Battler
       def initialize(@data : CharacterData); end
 
       private def data : PrintableData
-        [
+        data = [
           {
             "Type"    => @data[:type].to_s,
             "Race"    => @data[:race].to_s,
@@ -25,11 +25,16 @@ module Battler
             "SPD"     => @data[:spd].to_s,
             "PP"      => @data[:pp].to_s,
             "MP"      => @data[:mp].to_s
-          },
-          {
-            "Special"  => SPECIAL_DESCRIPTIONS[@data[:special]]? || "Unknown (#{@data[:special]})"
           }
         ]
+
+        if @data[:special] > 0
+          data << {
+            "Special"  => SPECIAL_DESCRIPTIONS[@data[:special]]? || "Unknown (#{@data[:special]})"
+          }
+        end
+
+        data
       end
 
       private def hero?
