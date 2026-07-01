@@ -2,7 +2,7 @@
 /lib/
 /.shards/
 *.dwarf
-/bin/*.dwarf
+/bin/
 
 # Web
 /web/node_modules/
