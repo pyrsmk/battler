@@ -20,7 +20,9 @@ jobs:
         run: shards install --production
 
       - name: Build release binary
-        run: crystal build ./src/api.cr --release --no-debug -o battler_api_server
+        run: |
+          sudo apt-get update && sudo apt-get install -y musl-tools
+          crystal build ./src/api.cr --release --no-debug --static -o battler_api_server
 
       - name: Deploy to server
         env:
