@@ -85,6 +85,7 @@ async function scan() {
       error.value = data.message
     } else {
       cardData.value = data
+      barcode.value = ''
     }
   } catch (e) {
     error.value = 'Connection failed'
