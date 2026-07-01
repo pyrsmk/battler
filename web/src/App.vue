@@ -97,7 +97,6 @@ async function scan() {
 <style scoped>
 .battler-frame {
   border: 3px solid var(--gold-dark);
-  border-radius: 12px;
   background: var(--bg-panel);
   padding: 2rem 1.5rem;
   box-shadow:
@@ -141,7 +140,6 @@ async function scan() {
   display: flex;
   gap: 0.5rem;
   border: 2px solid var(--border-ornate);
-  border-radius: 8px;
   padding: 0.5rem;
   background: rgba(0, 0, 0, 0.3);
 }
@@ -150,7 +148,6 @@ async function scan() {
   flex: 1;
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--gold-dark);
-  border-radius: 4px;
   padding: 0.75rem 1rem;
   color: var(--gold-light);
   font-family: 'Press Start 2P', monospace;
@@ -172,7 +169,6 @@ async function scan() {
 .scan-button {
   background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
   border: 1px solid var(--gold);
-  border-radius: 4px;
   padding: 0.75rem 1.25rem;
   color: var(--bg-dark);
   font-family: 'Press Start 2P', monospace;
@@ -200,7 +196,6 @@ async function scan() {
 /* LCD screen */
 .lcd-screen {
   border: 3px solid var(--border-ornate);
-  border-radius: 8px;
   background: var(--bg-lcd);
   padding: 3px;
   box-shadow:
@@ -210,7 +205,6 @@ async function scan() {
 
 .lcd-inner {
   border: 1px solid rgba(90, 255, 58, 0.15);
-  border-radius: 5px;
   padding: 1rem;
   min-height: 180px;
   background:
