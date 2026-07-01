@@ -4,6 +4,7 @@ module Battler
 
     module Abstract
       @_to_s : String?
+      @_to_json : String?
 
       abstract def data : PrintableData
 
@@ -23,6 +24,12 @@ module Battler
           end
 
           lines.join("\n")
+        )
+      end
+
+      def to_json : String
+        @_to_json ||= (
+          data.to_json
         )
       end
     end

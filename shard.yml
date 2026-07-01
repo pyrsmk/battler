@@ -6,8 +6,12 @@ authors:
 
 targets:
   barcode:
-    main: src/battler.cr
+    main: src/cli.cr
 
 crystal: '>= 1.19.1'
 
-license: MIT
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+license: Don't Be A Dick

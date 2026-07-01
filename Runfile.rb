@@ -5,12 +5,18 @@ task :init do
   run "shards check || shards install"
 end
 
-# Run the development app.
-task :app do |barcode|
-  run "crystal run ./src/battler.cr -- #{barcode}"
+# Run the CLI app.
+task :cli do |barcode|
+  run "crystal run ./src/cli.cr -- #{barcode}"
 end
 
-# Build the app.
+# Run the webserver.
+task :http do
+  run "crystal run ./src/http.cr"
+end
+
+# Build the apps.
 task :build do
-  run "crystal build ./src/battler.cr --release -o bin"
+  run "crystal build ./src/cli.cr --release -o bin/battler"
+  run "crystal build ./src/http.cr --release -o bin/server"
 end

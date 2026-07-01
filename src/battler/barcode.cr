@@ -3,16 +3,23 @@ module Battler
     alias Cards = Card::Character | Card::Weapon | Card::Armor | Card::Item
 
     @_to_s : String?
+    @_to_json : String?
 
     def initialize(@barcode : String); end
 
     def to_s : String
-      @_to_s ||= (
-        validate_format!
-        validate_size!
-        validate_checksum!
-        (should_preread? ? preread : postread).to_s
-      )
+      @_to_s ||= analyze.to_s
+    end
+
+    def to_json : String
+      @_to_json ||= analyze.to_json
+    end
+
+    private def analyze : Cards
+      validate_format!
+      validate_size!
+      validate_checksum!
+      should_preread? ? preread : postread
     end
 
     def ean_8? : Bool
