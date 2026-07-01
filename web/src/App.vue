@@ -246,7 +246,7 @@ async function scan() {
 }
 
 .lcd-label {
-  color: #6aaa4a;
+  color: var(--lcd-dim);
   font-size: 0.5rem;
   text-transform: uppercase;
   flex-shrink: 0;
